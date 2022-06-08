@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -13,5 +14,17 @@ public class Main {
 
         Employee employee = new Employee(name, surname, salary);
         EmployeeDAO.create(employee);
+
+
+        // print all employees:
+
+        ArrayList<Employee> employees = EmployeeDAO.searchById(1);
+        if (employees.size() == 0) {
+            System.out.println("No entries");
+        }
+        else {
+            System.out.println(employees);
+        }
+
     }
 }

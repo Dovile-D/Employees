@@ -1,7 +1,5 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 
 public class EmployeeDAO {
     // global variables:
@@ -34,5 +32,42 @@ public class EmployeeDAO {
             System.out.println("Connection failed. Read more: ");
             e.printStackTrace();
         }
+    }
+
+    public static ArrayList<Employee> searchById (int id) {
+        String query = "SELECT * FROM employee WHERE id = ?;";
+        // connect to database:
+        String url = "jdbc:mysql://localhost:3306/" + DATABASE_NAME;
+        // array list to store entries from result set:
+        ArrayList<Employee> employees = new ArrayList<>();
+
+        try {
+            // create connection to database:
+            Connection connection = DriverManager.getConnection(url, DATABASE_USERNAME, DATABASE_PASSWORD);
+            System.out.println("Connection successful");
+            // prepare database query (read given string):
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            // create result set:
+            while (resultSet.next()) {
+                employees.add(new Employee(
+                resultSet.getInt("id"),
+                resultSet.getString("name"),
+                resultSet.getString("surname"),
+                resultSet.getDouble("salary")
+                ));
+            }
+
+            // close connection to database:
+            connection.close();
+            preparedStatement.close();
+        }
+        catch (SQLException e) {
+            System.out.println("Connection failed. Read more: ");
+            e.printStackTrace();
+        }
+        return employees;
     }
 }
