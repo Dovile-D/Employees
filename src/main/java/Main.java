@@ -40,5 +40,8 @@ public class Main {
         EmployeeDAO.updateByID(employee1);
         System.out.println(employee1);
 
+        // delete entry:
+        EmployeeDAO.deleteById(6);
+
     }
 }

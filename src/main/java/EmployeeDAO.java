@@ -135,4 +135,30 @@ public class EmployeeDAO {
             e.printStackTrace();
         }
     }
+
+    public static void deleteById(int id) {
+        String query = "DELETE from employee WHERE employee.id = ?";
+        // connect to database:
+        String url = "jdbc:mysql://localhost:3306/" + DATABASE_NAME;
+        try {
+            // create connection to database:
+            Connection connection = DriverManager.getConnection(url, DATABASE_USERNAME, DATABASE_PASSWORD);
+            System.out.println("Connection successful");
+            // prepare database query (read given string):
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            // get values from Main starting from index 1:
+            preparedStatement.setInt(1, id);
+
+            // run prepared query:
+            preparedStatement.executeUpdate();
+
+            // close connection to database:
+            connection.close();
+            preparedStatement.close();
+        }
+        catch (SQLException e) {
+            System.out.println("Connection failed. Read more: ");
+            e.printStackTrace();
+        }
+    }
 }
