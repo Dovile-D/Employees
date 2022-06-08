@@ -107,4 +107,32 @@ public class EmployeeDAO {
         }
         return employees;
     }
+
+    public static void updateByID(Employee employee) {
+        String query = "UPDATE employee SET name = ?, surname = ?, salary = ? WHERE id = ?;";
+        // connect to database:
+        String url = "jdbc:mysql://localhost:3306/" + DATABASE_NAME;
+        try {
+            // create connection to database:
+            Connection connection = DriverManager.getConnection(url, DATABASE_USERNAME, DATABASE_PASSWORD);
+            System.out.println("Connection successful");
+            // prepare database query (read given string):
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            // get values from Main starting from index 1:
+            preparedStatement.setInt(1, employee.getId());
+            preparedStatement.setString(2, employee.getName());
+            preparedStatement.setString(3, employee.getSurname());
+            preparedStatement.setDouble(4, employee.getSalary());
+            // run prepared query:
+            preparedStatement.executeUpdate();
+
+            // close connection to database:
+            connection.close();
+            preparedStatement.close();
+        }
+        catch (SQLException e) {
+            System.out.println("Connection failed. Read more: ");
+            e.printStackTrace();
+        }
+    }
 }

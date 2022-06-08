@@ -35,5 +35,10 @@ public class Main {
             System.out.println(employees1);
         }
 
+        // update entry:
+        Employee employee1 = new Employee(1, "Jonas", "Basanavicius", 9542.48);
+        EmployeeDAO.updateByID(employee1);
+        System.out.println(employee1);
+
     }
 }
