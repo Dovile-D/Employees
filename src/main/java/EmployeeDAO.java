@@ -70,4 +70,41 @@ public class EmployeeDAO {
         }
         return employees;
     }
+
+    public static ArrayList<Employee> searchByName(String name) {
+        String query = "SELECT * FROM employee WHERE name LIKE ?;";
+        // connect to database:
+        String url = "jdbc:mysql://localhost:3306/" + DATABASE_NAME;
+        // array list to store entries from result set:
+        ArrayList<Employee> employees = new ArrayList<>();
+
+        try {
+            // create connection to database:
+            Connection connection = DriverManager.getConnection(url, DATABASE_USERNAME, DATABASE_PASSWORD);
+            System.out.println("Connection successful");
+            // prepare database query (read given string):
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, "%" + name + "%");
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            // create result set:
+            while (resultSet.next()) {
+                employees.add(new Employee(
+                        resultSet.getInt("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("surname"),
+                        resultSet.getDouble("salary")
+                ));
+            }
+
+            // close connection to database:
+            connection.close();
+            preparedStatement.close();
+        }
+        catch (SQLException e) {
+            System.out.println("Connection failed. Read more: ");
+            e.printStackTrace();
+        }
+        return employees;
+    }
 }

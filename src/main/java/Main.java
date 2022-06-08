@@ -26,5 +26,14 @@ public class Main {
             System.out.println(employees);
         }
 
+        // search by name:
+        ArrayList<Employee> employees1 = EmployeeDAO.searchByName("Jonas");
+        if (employees.size() == 0) {
+            System.out.println("No entries");
+        }
+        else {
+            System.out.println(employees1);
+        }
+
     }
 }
