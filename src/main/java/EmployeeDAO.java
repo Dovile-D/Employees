@@ -10,9 +10,9 @@ public class EmployeeDAO {
     private static final String DATABASE_PASSWORD = "";
 
     public static void create(Employee employee) {
-        String query = "INSERT into employees (name, surname, salary) VALUES (?, ?, ?)";
+        String query = "INSERT INTO employee (name, surname, salary) VALUES (?, ?, ?);";
         // connect to database:
-        String url = "jdbc.mysql://localhost:3306/" + DATABASE_NAME;
+        String url = "jdbc:mysql://localhost:3306/" + DATABASE_NAME;
         try {
             // create connection to database:
             Connection connection = DriverManager.getConnection(url, DATABASE_USERNAME, DATABASE_PASSWORD);
